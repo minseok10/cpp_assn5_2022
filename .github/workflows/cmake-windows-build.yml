@@ -32,12 +32,8 @@ jobs:
           dir dist
           windeployqt dist\qt-minesweeper.exe
 
-      - name: Zip
-        shell: pwsh
-        run: Compress-Archive -Path dist\* -DestinationPath qt-minesweeper-windows.zip
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: qt-minesweeper-windows
-          path: qt-minesweeper-windows.zip
+          path: dist/*
