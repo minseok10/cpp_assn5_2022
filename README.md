@@ -8,11 +8,14 @@
 - Framework: Qt Widgets
 - Primary build: qmake (`real-assn5.pro`)
 - Optional build: CMake (`CMakeLists.txt`)
+- Tested on: macOS with Qt 6 installed by Homebrew
+- Expected to build on: Windows with Qt 5/6 MinGW or MSVC Kit
 
 ## 주요 기능
 
 - Easy, Medium, Hard 난이도 선택
 - 무작위 지뢰 배치
+- 첫 클릭 지뢰 방지
 - 좌클릭으로 칸 열기
 - 우클릭으로 깃발 표시 및 해제
 - 빈 칸 주변 자동 열기
@@ -22,6 +25,8 @@
 - 플레이 시간 표시
 
 ## 빌드 및 실행
+
+Qt Widgets가 포함된 Qt 5 또는 Qt 6 환경이 필요합니다. 이 프로젝트는 qmake와 CMake 설정을 모두 제공합니다.
 
 ### Qt Creator 사용
 
@@ -54,6 +59,77 @@ cmake --build build
 ```
 
 Windows에서는 빌드 산출물 위치가 사용하는 generator와 configuration에 따라 `build/Debug` 또는 `build/Release` 아래에 생성될 수 있습니다.
+
+## 플랫폼별 메모
+
+### macOS
+
+macOS에서는 Homebrew Qt 6.11.0 환경에서 CMake 빌드 및 실행을 확인했습니다.
+
+```bash
+cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+cmake --build build
+open build/cpp_assn5_2022.app
+```
+
+배포용 앱을 만들 때는 Qt 프레임워크를 `.app` 안에 포함해야 다른 Mac에서도 실행될 가능성이 높아집니다.
+
+```bash
+macdeployqt build/cpp_assn5_2022.app
+ditto -c -k --sequesterRsrc --keepParent build/cpp_assn5_2022.app dist/cpp_assn5_2022-macos.zip
+```
+
+### Windows
+
+Windows에서는 직접 실행 테스트를 하지는 않았지만, 코드가 Qt Widgets 표준 API와 C++17만 사용하므로 Qt 5/6 Kit에서 빌드될 가능성이 높습니다. 경로 구분자나 macOS 전용 API를 코드에서 직접 사용하지 않습니다.
+
+Qt Creator를 사용하는 경우 `real-assn5.pro` 또는 `CMakeLists.txt`를 열고 MinGW 또는 MSVC Kit을 선택해 빌드하면 됩니다.
+
+MinGW qmake 예시:
+
+```bat
+qmake real-assn5.pro
+mingw32-make
+release\cpp_assn5_2022.exe
+```
+
+CMake 예시:
+
+```bat
+cmake -S . -B build
+cmake --build build --config Release
+build\Release\cpp_assn5_2022.exe
+```
+
+Windows에서 실행 파일을 다른 PC에 배포하려면 Qt DLL을 함께 복사해야 합니다. Qt가 제공하는 `windeployqt`를 사용하는 것이 가장 일반적입니다.
+
+```bat
+windeployqt build\Release\cpp_assn5_2022.exe
+```
+
+Windows에서 확인해야 할 수 있는 점:
+
+- 사용하는 Qt Kit에 따라 실행 파일 위치가 `build\Release`, `build\Debug`, `release`, `debug` 중 하나일 수 있습니다.
+- MSVC Kit으로 빌드한 실행 파일은 해당 Visual C++ Runtime이 필요할 수 있습니다.
+- Windows에서는 `.app` 파일을 사용할 수 없고 `.exe`를 따로 빌드해야 합니다.
+
+## Release
+
+현재 macOS용 `.app` 번들 배포를 목표로 합니다. macOS에서 빌드한 `.app`은 macOS용이며, Windows 사용자는 Windows 환경에서 `.exe`를 별도로 빌드해야 합니다.
+
+릴리즈 권장 파일:
+
+- `cpp_assn5_2022-macos.zip`: macOS용 앱 번들
+- Windows 빌드 환경에서 만든 `cpp_assn5_2022-windows.zip`: Windows용 실행 파일과 Qt DLL
+
+GitHub Release를 만들 때는 태그를 만든 뒤 압축 파일을 업로드하면 됩니다.
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+그다음 GitHub 웹사이트의 Releases 화면에서 `cpp_assn5_2022-macos.zip`을 첨부합니다.
 
 ## 프로젝트 구조
 

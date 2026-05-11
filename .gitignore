@@ -28,6 +28,7 @@ cmake_install.cmake
 compile_commands.json
 
 # App/package output
+dist/
 *.app/
 *.exe
 *.dll
