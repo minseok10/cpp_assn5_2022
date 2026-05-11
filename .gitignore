@@ -1,0 +1,65 @@
+# Qt Creator user/session files
+*.pro.user
+*.pro.user.*
+*.creator.user
+*.user
+*.autosave
+
+# Build directories
+build/
+build-*/
+cmake-build-*/
+debug/
+release/
+Debug/
+Release/
+.cache/
+.ccls-cache/
+
+# qmake generated files
+Makefile
+Makefile.*
+.qmake.stash
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+object_script.*
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+CMakeUserPresets.json
+CTestTestfile.cmake
+DartConfiguration.tcl
+Testing/
+install_manifest.txt
+build.ninja
+.ninja_deps
+.ninja_log
+
+# App/package output
+dist/
+*.app/
+*.dmg
+*.pkg
+*.zip
+*.exe
+*.dll
+*.dylib
+*.so
+*.o
+*.obj
+*.a
+*.lib
+*.pdb
+*.ilk
+*.exp
+*.dSYM/
+
+# macOS / Windows metadata
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
