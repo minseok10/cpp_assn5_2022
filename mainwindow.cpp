@@ -1,8 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-int MyButton::flags; //static member var
-int MyButton::winlose=0; //static member var
-int MyButton::opencnt=0; //static member var
 
 
 //나는 이프로그래밍 과제를 다른 사람의 부적절한 도움 없이 완수하였습니다
@@ -57,18 +54,9 @@ void MainWindow::panGen(){ //game plate new generate
     }
     pan = new Pan(level->currentIndex(),flagcnt,time,ui->centralwidget);
     vlay->addWidget(pan);
-    qDebug()<<ui->centralwidget->children();
 }
 
 MainWindow::~MainWindow()
 {
-    delete level;
-    delete time;
-    delete flagcnt;
-    delete rstbtn;
-    delete hlay;
-    delete pan;
-    delete vlay;
     delete ui;
 }
-

@@ -1,0 +1,41 @@
+# Qt Creator user/session files
+*.pro.user
+*.pro.user.*
+*.creator.user
+*.user
+
+# Build directories
+build/
+build-*/
+cmake-build-*/
+debug/
+release/
+Debug/
+Release/
+
+# qmake generated files
+Makefile
+Makefile.*
+.qmake.stash
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+
+# App/package output
+*.app/
+*.exe
+*.dll
+*.dylib
+*.so
+*.o
+*.obj
+
+# macOS / Windows metadata
+.DS_Store
+Thumbs.db

@@ -16,7 +16,7 @@ void Timego::zero(){
 }
 
 void Timego::stop(){
-    timer.stop(); timex.invalidate();
+    timer.stop(); timex.invalidate(); running=0;
 }
 
 void Timego::up(){

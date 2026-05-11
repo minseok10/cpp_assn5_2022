@@ -1,11 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "qboxlayout.h"
+#include <QHBoxLayout>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QComboBox>
 #include <QLabel>
+#include <QVBoxLayout>
 #include "timego.h"
 #include "pan.h"
 

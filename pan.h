@@ -6,10 +6,13 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <QBoxLayout>
+#include <QGridLayout>
+#include <QSizePolicy>
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include <utility>
+#include <vector>
 #include "timego.h"
 #include "mybutton.h"
 

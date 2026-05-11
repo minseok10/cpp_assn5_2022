@@ -7,7 +7,6 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
     QWidget(parent)
   ,level(n),flagw(_flagcnt),timer(time){
     glay=new QGridLayout(this);
-    setLayout(glay);
     switch(level){
     case 0:
         x=10; y=8;
@@ -59,11 +58,9 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
             foo.push_back(std::make_pair(i,j));
         }
     } //button position list vector
-    qDebug()<<"random="<<foo.size();
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::shuffle(foo.begin(), foo.end(), std::default_random_engine(seed)); //first some element become mine
         for(int p=0;p<mines;++p){
-            //qDebug()<<"random ("<<p<<")="<<foo.at(p);
             bts[foo.at(p).first][foo.at(p).second].type=-1;
             bts[foo.at(p).first][foo.at(p).second].label="!";
 
@@ -115,7 +112,6 @@ Pan::~Pan(){
 void Pan::frefresh_slot(){ //refresh
     flagw->setText(QString(" Flags: %1").arg(MyButton::flags)); //flag refresh
     timer->gogo();
-    //qDebug()<<MyButton::opencnt;
     if(MyButton::opencnt==x*y-mines){ //whether all opened
         MyButton::winlose=1;
         for(int i=0;i<y;i++){

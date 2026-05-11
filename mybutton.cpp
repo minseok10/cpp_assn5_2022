@@ -1,5 +1,9 @@
 #include "mybutton.h"
 
+int MyButton::flags = 0; //static member var
+int MyButton::winlose = 0; //static member var
+int MyButton::opencnt = 0; //static member var
+
 //나는 이프로그래밍 과제를 다른 사람의 부적절한 도움 없이 완수하였습니다
 
 
@@ -13,6 +17,7 @@ MyButton::~MyButton()=default;
 void MyButton::mousePressEvent(QMouseEvent *e){
  if(e->button() == Qt::RightButton){
  emit rightClick();
+ return;
  }
  QPushButton::mousePressEvent(e);
 }
@@ -26,6 +31,8 @@ void MyButton::rclick(){
             ++flags;
         }
         else{
+            if(flags <= 0)
+                return;
             setStyleSheet("background: rgb(200,1,80)");
             flagon=1;
             --flags;
@@ -39,6 +46,8 @@ void MyButton::rclick(){
 void MyButton::lclick(){
     if(!winlose){
         if(!opened){
+            if(flagon)
+                return;
             if(type==-1) emit lost(); //game lose
             else open();
         }
