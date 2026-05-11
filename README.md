@@ -17,12 +17,14 @@
 - 언어: C++17
 - GUI 프레임워크: Qt Widgets
 - 원래 빌드 방식: qmake (`real-assn5.pro`)
+- 추가 빌드 방식: CMake (`CMakeLists.txt`)
 
 ## 주요 파일
 
 ```text
 .
 ├── real-assn5.pro       # qmake 프로젝트 파일
+├── CMakeLists.txt       # 현재 환경에서 빌드하기 위해 추가한 CMake 설정
 ├── main.cpp             # QApplication 및 MainWindow 실행 진입점
 ├── mainwindow.ui        # Qt Designer UI 파일
 ├── mainwindow.h/.cpp    # 메인 창, 난이도 선택, 타이머, 리셋, 게임판 관리
@@ -54,6 +56,39 @@ Windows에서 Qt MinGW Kit을 사용하는 경우:
 qmake real-assn5.pro
 mingw32-make
 ```
+
+## CMake 빌드 방법
+
+원본 코드는 그대로 두고, 현재 개발 환경에서 더 쉽게 빌드할 수 있도록 `CMakeLists.txt`를 추가했습니다.
+
+macOS 또는 Linux:
+
+```bash
+cmake -S . -B build
+cmake --build build
+```
+
+macOS에서 앱 번들로 실행하는 경우:
+
+```bash
+open build/cpp_assn5_2022_original.app
+```
+
+Windows:
+
+```bat
+cmake -S . -B build
+cmake --build build --config Release
+```
+
+Windows에서 생성되는 실행 파일 위치는 사용하는 generator와 Qt Kit에 따라 `build\Release` 또는 `build\Debug` 아래가 될 수 있습니다.
+
+## 빌드 확인
+
+이 브랜치에서는 코드 파일을 수정하지 않고, 문서와 CMake 설정만 추가했습니다. macOS Homebrew Qt 6 환경에서 다음 빌드를 확인했습니다.
+
+- qmake shadow build 성공
+- CMake shadow build 성공
 
 ## 메모
 
