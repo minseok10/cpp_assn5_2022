@@ -1,0 +1,42 @@
+name: Windows Qt Build
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.8.3'
+          arch: 'win64_mingw'
+
+      - name: Configure
+        run: cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Deploy
+        shell: cmd
+        run: |
+          mkdir dist
+          copy build\*.exe dist\
+          windeployqt dist\*.exe
+
+      - name: Zip
+        shell: pwsh
+        run: Compress-Archive -Path dist\* -DestinationPath minesweeper-windows.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: minesweeper-windows
+          path: minesweeper-windows.zip
