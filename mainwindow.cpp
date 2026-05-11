@@ -17,7 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
     pan = nullptr;
     level = new QComboBox(ui->centralwidget);
     level->addItems({"Easy","Medium","Hard"});
-    level->setStyleSheet("background: white");
+    level->setStyleSheet(
+        "QComboBox { background: white; color: black; }"
+        "QComboBox QAbstractItemView { background: white; color: black; selection-background-color: rgb(220,220,220); selection-color: black; }"
+    );
     time = new Timego(ui->centralwidget);
     flagcnt = new QLabel(ui->centralwidget);
     rstbtn = new QPushButton("Reset", ui->centralwidget);

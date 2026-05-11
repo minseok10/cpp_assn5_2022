@@ -11,24 +11,24 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
     case 0:
         x=10; y=8;
         mines=10;
-        setStyleSheet("MyButton {background: rgb(255,179,0)};font-size: 28px;");
+        setStyleSheet("MyButton { background: rgb(255,179,0); border: 1px solid rgb(65,65,58); margin: 0px; padding: 0px; font-size: 28px; }");
         break;
     case 1:
         x=18; y=14;
         mines=40;
-        setStyleSheet("MyButton {background: rgb(255,179,0);font-size: 16px;}");
+        setStyleSheet("MyButton { background: rgb(255,179,0); border: 1px solid rgb(65,65,58); margin: 0px; padding: 0px; font-size: 16px; }");
         break;
     case 2:
         x=24; y=20;
         mines=99;
-        setStyleSheet("MyButton {background: rgb(255,179,0);font-size: 12px;}");
+        setStyleSheet("MyButton { background: rgb(255,179,0); border: 1px solid rgb(65,65,58); margin: 0px; padding: 0px; font-size: 12px; }");
         break;
     }
     MyButton::flags=mines;
     flagw->setText(QString(" Flags: %1").arg(MyButton::flags));
 
-    glay->setHorizontalSpacing(1);
-    glay->setVerticalSpacing(1);
+    glay->setHorizontalSpacing(2);
+    glay->setVerticalSpacing(2);
 
     bts = new MyButton* [y];
     for (int i = 0; i < y; i++)
@@ -37,6 +37,7 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
     for(int i=0;i<y;i++){
         for(int j=0;j<x;j++){
             glay->setColumnStretch(j,1); //equal column width
+            glay->setRowStretch(i,1); //equal row height
             bts[i][j].setMinimumSize(30,30);
             QSizePolicy temp = bts[i][j].sizePolicy();
             temp.setVerticalPolicy(temp.horizontalPolicy());
