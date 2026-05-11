@@ -2,6 +2,12 @@
 
 과거 객체지향 프로그래밍 과제로 손코딩했던 C++/Qt 기반 지뢰찾기 프로그램을 현재 환경에서 다시 빌드하고 실행할 수 있도록 정리한 프로젝트입니다.
 
+원 과제 보고서는 `문서2.pdf`로 함께 보관되어 있으며, 현재 README는 원본 과제 자료와 현재 빌드/배포 환경을 구분해 정리합니다.
+
+코드는 `MainWindow`, `Pan`, `MyButton`, `timego` 클래스를 중심으로 구성됩니다. Qt 기본 위젯을 상속해 게임 창, 지뢰판, 개별 칸 버튼, 플레이 시간 표시를 나누어 구현했습니다.
+
+## 스크린샷
+
 ![Qt Minesweeper screenshot](screenshot.png)
 
 ## 개발 환경
@@ -115,29 +121,6 @@ Windows에서 확인해야 할 수 있는 점:
 - MSVC Kit으로 빌드한 실행 파일은 해당 Visual C++ Runtime이 필요할 수 있습니다.
 - Windows에서는 `.app` 파일을 사용할 수 없고 `.exe`를 따로 빌드해야 합니다.
 
-## Release
-
-최신 릴리즈는 GitHub Releases에서 받을 수 있습니다.
-
-- Latest release: `v1.0.1`
-- macOS asset: `qt-minesweeper-macos.zip`
-
-현재 제공하는 릴리즈 파일은 macOS용 `.app` 번들입니다. Qt 프레임워크를 앱 안에 포함했고, 개인 프로젝트 배포용으로 ad-hoc 서명을 적용했습니다.
-
-macOS에서 받은 zip을 풀고 앱이 열리지 않는 경우, 공증(notarization)되지 않은 개인 배포 앱이라 Gatekeeper 경고가 뜰 수 있습니다. 이 프로젝트의 릴리즈는 학습/포트폴리오용 배포이며, 공식 Developer ID 서명 및 공증까지 진행한 상용 배포 형태는 아닙니다.
-
-Windows 사용자는 Windows 환경에서 `.exe`를 별도로 빌드해야 합니다. Windows 배포 파일을 만들 때는 Qt가 제공하는 `windeployqt`로 필요한 DLL을 함께 패키징하는 것을 권장합니다.
-
-릴리즈용 macOS zip을 다시 만들 때의 기본 흐름:
-
-```bash
-cmake -S . -B build
-cmake --build build
-macdeployqt build/qt-minesweeper.app -always-overwrite -libpath=/opt/homebrew/lib
-codesign --force --deep --sign - build/qt-minesweeper.app
-ditto -c -k --noextattr --norsrc --keepParent build/qt-minesweeper.app dist/qt-minesweeper-macos.zip
-```
-
 ## 프로젝트 구조
 
 ```text
@@ -145,15 +128,15 @@ ditto -c -k --noextattr --norsrc --keepParent build/qt-minesweeper.app dist/qt-m
 ├── CMakeLists.txt       # CMake 빌드 설정
 ├── README.md            # 프로젝트 설명
 ├── real-assn5.pro       # qmake 빌드 설정
+├── 문서2.pdf             # 원 과제 보고서 자료
 ├── main.cpp             # QApplication 및 MainWindow 실행 진입점
 ├── mainwindow.ui        # Qt Designer UI 기본 창
 ├── mainwindow.h/.cpp    # 난이도, 타이머, 리셋 버튼, 게임판 관리
 ├── pan.h/.cpp           # 지뢰찾기 게임판, 지뢰 배치, 승패 판정
 ├── mybutton.h/.cpp      # 각 칸 버튼, 좌/우클릭, 깃발, 열기 동작
-├── timego.h/.cpp        # 플레이 시간 표시
-└── 문서2.txt             # 원 과제 보고서 자료
+└── timego.h/.cpp        # 플레이 시간 표시
 ```
 
 ## 메모
 
-원래 과제 코드의 클래스 구조와 변수명은 최대한 유지했습니다. 현재 정리는 실행 가능성, GitHub 업로드, Qt 버전 및 플랫폼 차이로 생길 수 있는 빌드 문제를 줄이는 데 초점을 두었습니다.
+원래 과제 코드의 클래스 구조와 변수명은 최대한 유지했습니다. 원 과제 보고서 자료는 기존 텍스트 파일 대신 `문서2.pdf`로 보관합니다. 현재 정리는 실행 가능성, GitHub 업로드, Qt 버전 및 플랫폼 차이로 생길 수 있는 빌드 문제를 줄이는 데 초점을 두었습니다.
