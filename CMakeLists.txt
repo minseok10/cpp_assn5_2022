@@ -26,11 +26,12 @@ set(PROJECT_SOURCES
 
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
     qt_add_executable(cpp_assn5_2022
+        MACOSX_BUNDLE
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 else()
-    add_executable(cpp_assn5_2022 ${PROJECT_SOURCES})
+    add_executable(cpp_assn5_2022 MACOSX_BUNDLE ${PROJECT_SOURCES})
 endif()
 
 target_link_libraries(cpp_assn5_2022 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
