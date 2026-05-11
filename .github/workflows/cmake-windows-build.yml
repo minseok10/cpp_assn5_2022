@@ -27,16 +27,17 @@ jobs:
       - name: Deploy
         shell: cmd
         run: |
-          mkdir dist
-          copy build\*.exe dist\
-          windeployqt dist\*.exe
+          if not exist dist mkdir dist
+          copy build\cpp_assn5_2022.exe dist\cpp_assn5_2022.exe
+          dir dist
+          windeployqt dist\cpp_assn5_2022.exe
 
       - name: Zip
         shell: pwsh
-        run: Compress-Archive -Path dist\* -DestinationPath minesweeper-windows.zip
+        run: Compress-Archive -Path dist\* -DestinationPath cpp_assn5_2022-windows.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: minesweeper-windows
-          path: minesweeper-windows.zip
+          name: cpp_assn5_2022-windows
+          path: cpp_assn5_2022-windows.zip
