@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(cpp_assn5_2022 VERSION 1.0 LANGUAGES CXX)
+project(qt-minesweeper VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,17 +25,17 @@ set(PROJECT_SOURCES
 )
 
 if(QT_VERSION_MAJOR GREATER_EQUAL 6)
-    qt_add_executable(cpp_assn5_2022
+    qt_add_executable(qt-minesweeper
         MACOSX_BUNDLE
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
 else()
-    add_executable(cpp_assn5_2022 MACOSX_BUNDLE ${PROJECT_SOURCES})
+    add_executable(qt-minesweeper MACOSX_BUNDLE ${PROJECT_SOURCES})
 endif()
 
-target_link_libraries(cpp_assn5_2022 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(qt-minesweeper PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(cpp_assn5_2022)
+    qt_finalize_executable(qt-minesweeper)
 endif()
