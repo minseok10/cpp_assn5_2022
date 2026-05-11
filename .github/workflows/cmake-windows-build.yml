@@ -16,10 +16,10 @@ jobs:
         uses: jurplel/install-qt-action@v4
         with:
           version: '6.8.3'
-          arch: 'win64_mingw'
+          arch: 'win64_msvc2022_64'
 
       - name: Configure
-        run: cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
 
       - name: Build
         run: cmake --build build --config Release
@@ -28,7 +28,7 @@ jobs:
         shell: cmd
         run: |
           if not exist dist mkdir dist
-          copy build\qt-minesweeper.exe dist\qt-minesweeper.exe
+          copy build\Release\qt-minesweeper.exe dist\qt-minesweeper.exe
           dir dist
           windeployqt dist\qt-minesweeper.exe
 
