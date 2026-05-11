@@ -115,21 +115,26 @@ Windows에서 확인해야 할 수 있는 점:
 
 ## Release
 
-현재 macOS용 `.app` 번들 배포를 목표로 합니다. macOS에서 빌드한 `.app`은 macOS용이며, Windows 사용자는 Windows 환경에서 `.exe`를 별도로 빌드해야 합니다.
+최신 릴리즈는 GitHub Releases에서 받을 수 있습니다.
 
-릴리즈 권장 파일:
+- Latest release: `v1.0.1`
+- macOS asset: `cpp_assn5_2022-macos.zip`
 
-- `cpp_assn5_2022-macos.zip`: macOS용 앱 번들
-- Windows 빌드 환경에서 만든 `cpp_assn5_2022-windows.zip`: Windows용 실행 파일과 Qt DLL
+현재 제공하는 릴리즈 파일은 macOS용 `.app` 번들입니다. Qt 프레임워크를 앱 안에 포함했고, 개인 프로젝트 배포용으로 ad-hoc 서명을 적용했습니다.
 
-GitHub Release를 만들 때는 태그를 만든 뒤 압축 파일을 업로드하면 됩니다.
+macOS에서 받은 zip을 풀고 앱이 열리지 않는 경우, 공증(notarization)되지 않은 개인 배포 앱이라 Gatekeeper 경고가 뜰 수 있습니다. 이 프로젝트의 릴리즈는 학습/포트폴리오용 배포이며, 공식 Developer ID 서명 및 공증까지 진행한 상용 배포 형태는 아닙니다.
+
+Windows 사용자는 Windows 환경에서 `.exe`를 별도로 빌드해야 합니다. Windows 배포 파일을 만들 때는 Qt가 제공하는 `windeployqt`로 필요한 DLL을 함께 패키징하는 것을 권장합니다.
+
+릴리즈용 macOS zip을 다시 만들 때의 기본 흐름:
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+cmake -S . -B build
+cmake --build build
+macdeployqt build/cpp_assn5_2022.app -always-overwrite -libpath=/opt/homebrew/lib
+codesign --force --deep --sign - build/cpp_assn5_2022.app
+ditto -c -k --noextattr --norsrc --keepParent build/cpp_assn5_2022.app dist/cpp_assn5_2022-macos.zip
 ```
-
-그다음 GitHub 웹사이트의 Releases 화면에서 `cpp_assn5_2022-macos.zip`을 첨부합니다.
 
 ## 프로젝트 구조
 
