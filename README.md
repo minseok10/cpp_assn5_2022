@@ -2,6 +2,8 @@
 
 과거 객체지향 프로그래밍 과제로 손코딩했던 C++/Qt 기반 지뢰찾기 프로그램을 현재 환경에서 다시 빌드하고 실행할 수 있도록 정리한 프로젝트입니다.
 
+![Qt Minesweeper screenshot](screenshot.png)
+
 ## 개발 환경
 
 - Language: C++17
