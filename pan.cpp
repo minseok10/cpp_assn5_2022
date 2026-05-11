@@ -49,6 +49,7 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
             bts[i][j].setText(QString(" "));
             connect(&bts[i][j],SIGNAL(frefresh()),this,SLOT(frefresh_slot()));
             connect(&bts[i][j],SIGNAL(lost()),this,SLOT(lost_slot()));
+            connect(&bts[i][j],SIGNAL(firstClick(int,int)),this,SLOT(first_click_slot(int,int)));
             connect(&bts[i][j],SIGNAL(opensignal(int,int)),this,SLOT(open_slot(int,int)));
         }
     }
@@ -66,6 +67,18 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
             bts[foo.at(p).first][foo.at(p).second].label="!";
 
     }
+    refreshNumbers();
+} //end constructor
+
+Pan::~Pan(){
+    for (int i = 0; i < y; i++)
+        delete[] bts[i];
+    delete[] bts;
+    delete glay;
+}
+
+void Pan::refreshNumbers()
+{
     for(int i=0;i<y;i++){
         for(int j=0;j<x;j++){
         int sum=0;
@@ -99,16 +112,7 @@ Pan::Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent):
         }
     }
 }
-} //end constructor
-
-Pan::~Pan(){
-    for (int i = 0; i < y; i++)
-        delete[] bts[i];
-    delete[] bts;
-    delete glay;
 }
-
-
 
 void Pan::frefresh_slot(){ //refresh
     flagw->setText(QString(" Flags: %1").arg(MyButton::flags)); //flag refresh
@@ -135,6 +139,31 @@ void Pan::lost_slot(){
     flagw->setText(" You Lost !");
     timer->stop();
 
+}
+
+void Pan::first_click_slot(int cx,int cy)
+{
+    if(MyButton::opencnt != 0 || bts[cy][cx].type != -1)
+        return;
+
+    std::vector<std::pair<int,int>> spots;
+    for(int i=0;i<y;i++){
+        for(int j=0;j<x;j++){
+            if(!(i==cy && j==cx) && bts[i][j].type!=-1)
+                spots.push_back(std::make_pair(i,j));
+        }
+    }
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::shuffle(spots.begin(), spots.end(), std::default_random_engine(seed));
+
+    int ny=spots.at(0).first;
+    int nx=spots.at(0).second;
+    bts[cy][cx].type=0;
+    bts[cy][cx].label="0";
+    bts[ny][nx].type=-1;
+    bts[ny][nx].label="!";
+    refreshNumbers();
 }
 
 void Pan::open_slot(int cx,int cy){ //check and open surrounding 8 blocks

@@ -53,6 +53,8 @@ void MyButton::lclick(){
         if(!opened){
             if(flagon)
                 return;
+            if(opencnt == 0)
+                emit firstClick(cx,cy);
             if(type==-1) emit lost(); //game lose
             else open();
         }

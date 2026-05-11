@@ -36,6 +36,7 @@ signals:
  void rightClick();
  void frefresh(); //flag counter refresh
  void lost(); //game lose
+ void firstClick(int,int);
  void opensignal(int,int);
 };
 

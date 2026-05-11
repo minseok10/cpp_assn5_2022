@@ -29,12 +29,14 @@ private:
     //int opens;
     QLabel* flagw; //flag widget
     Timego* timer;
+    void refreshNumbers();
 public:
     Pan(int n, QLabel* _flagcnt,Timego* time, QWidget *parent=nullptr);
     ~Pan();
 private slots:
     void frefresh_slot();
     void lost_slot();
+    void first_click_slot(int cx,int cy);
     void open_slot(int cx,int cy);
 };
 
