@@ -28,16 +28,16 @@ jobs:
         shell: cmd
         run: |
           if not exist dist mkdir dist
-          copy build\cpp_assn5_2022.exe dist\cpp_assn5_2022.exe
+          copy build\qt-minesweeper.exe dist\qt-minesweeper.exe
           dir dist
-          windeployqt dist\cpp_assn5_2022.exe
+          windeployqt dist\qt-minesweeper.exe
 
       - name: Zip
         shell: pwsh
-        run: Compress-Archive -Path dist\* -DestinationPath cpp_assn5_2022-windows.zip
+        run: Compress-Archive -Path dist\* -DestinationPath qt-minesweeper-windows.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: cpp_assn5_2022-windows
-          path: cpp_assn5_2022-windows.zip
+          name: qt-minesweeper-windows
+          path: qt-minesweeper-windows.zip
