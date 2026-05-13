@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build, for example v1.0.3"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -11,6 +17,7 @@ permissions:
 env:
   APP_NAME: qt-minesweeper
   QT_VERSION: 6.8.3
+  RELEASE_TAG: ${{ github.event.inputs.tag || github.ref_name }}
 
 jobs:
   build-windows:
@@ -19,7 +26,9 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -42,13 +51,13 @@ jobs:
 
       - name: Package
         shell: pwsh
-        run: Compress-Archive -Path "dist/*" -DestinationPath "${{ env.APP_NAME }}-${{ github.ref_name }}-windows-x64.zip"
+        run: Compress-Archive -Path "dist/*" -DestinationPath "${{ env.APP_NAME }}-${{ env.RELEASE_TAG }}-windows-x64.zip"
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: ${{ env.APP_NAME }}-${{ github.ref_name }}-windows-x64
-          path: ${{ env.APP_NAME }}-${{ github.ref_name }}-windows-x64.zip
+          name: ${{ env.APP_NAME }}-${{ env.RELEASE_TAG }}-windows-x64
+          path: ${{ env.APP_NAME }}-${{ env.RELEASE_TAG }}-windows-x64.zip
           if-no-files-found: error
 
   build-macos:
@@ -57,7 +66,9 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -85,13 +96,13 @@ jobs:
           codesign --verify --deep --strict "build/${APP_NAME}.app"
 
       - name: Package
-        run: ditto -c -k --sequesterRsrc --keepParent "build/${APP_NAME}.app" "${APP_NAME}-${{ github.ref_name }}-macos-arm64.zip"
+        run: ditto -c -k --sequesterRsrc --keepParent "build/${APP_NAME}.app" "${APP_NAME}-${RELEASE_TAG}-macos-arm64.zip"
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: ${{ env.APP_NAME }}-${{ github.ref_name }}-macos-arm64
-          path: ${{ env.APP_NAME }}-${{ github.ref_name }}-macos-arm64.zip
+          name: ${{ env.APP_NAME }}-${{ env.RELEASE_TAG }}-macos-arm64
+          path: ${{ env.APP_NAME }}-${{ env.RELEASE_TAG }}-macos-arm64.zip
           if-no-files-found: error
 
   create-release:
@@ -102,16 +113,22 @@ jobs:
       - build-macos
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.RELEASE_TAG }}
+
       - name: Download release artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
 
       - name: Create release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          gh release create "${{ github.ref_name }}" \
+          gh release create "${RELEASE_TAG}" \
             artifacts/**/*.zip \
-            --title "${{ env.APP_NAME }} ${{ github.ref_name }}" \
-            --notes "Automated Windows and macOS build for ${{ github.ref_name }}."
+            --title "${APP_NAME} ${RELEASE_TAG}" \
+            --notes "Automated Windows and macOS build for ${RELEASE_TAG}."
