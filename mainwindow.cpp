@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setStyleSheet("background: rgb(102,102,92); font-size: 18px;"); //global designsheet
+    setStyleSheet("background: rgb(102,102,92); color: black; font-size: 18px;"); //global designsheet
 
     vlay = new QVBoxLayout();
     hlay = new QHBoxLayout();

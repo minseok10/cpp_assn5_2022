@@ -6,7 +6,7 @@ int MyButton::opencnt = 0; //static member var
 
 static QString boxStyle(const QString& color)
 {
-    return QString("background: %1; border: 1px solid rgb(65,65,58); margin: 0px; padding: 0px;").arg(color);
+    return QString("background: %1; color: black; border: 1px solid rgb(65,65,58); margin: 0px; padding: 0px;").arg(color);
 }
 
 //나는 이프로그래밍 과제를 다른 사람의 부적절한 도움 없이 완수하였습니다
